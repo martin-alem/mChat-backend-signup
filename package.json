@@ -18,5 +18,15 @@
   "bugs": {
     "url": "https://github.com/martin-alem/mchat-backend-signup/issues"
   },
-  "homepage": "https://github.com/martin-alem/mchat-backend-signup#readme"
+  "homepage": "https://github.com/martin-alem/mchat-backend-signup#readme",
+  "devDependencies": {
+    "chalk": "^4.1.1",
+    "dotenv": "^10.0.0",
+    "jest": "^27.0.6",
+    "nodemon": "^2.0.12"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mysql": "^2.18.1"
+  }
 }
