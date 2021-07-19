@@ -24,6 +24,7 @@ class SendResponse {
         res.set("Access-Control-Max-Age", 86400);
         res.set("Date", new Date().toUTCString());
         res.set("Connection", "keep-alive");
+        res.set("X-Powered-By", "mchat")
 
         // if the headers contain information add the res.
         if (Object.keys(headers).length > 0) {
@@ -62,7 +63,7 @@ class SendResponse {
         res.set("Connection", "keep-alive");
 
         const responseObject = {
-            "status": "success",
+            "status": "fail",
             "response": {
                 "message": "",
                 "error": error

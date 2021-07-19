@@ -7,9 +7,9 @@
     "test": "test"
   },
   "scripts": {
-    "start": "node app.js",
-    "start-dev": "nodemon app.js",
-    "start-test": "nodemon app.js",
+    "start": "node server.js",
+    "start-dev": "nodemon server.js",
+    "start-test": "nodemon server.js",
     "test": "jest"
   },
   "repository": {
