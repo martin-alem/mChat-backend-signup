@@ -11,9 +11,7 @@ describe("successResponse ", () => {
         res.type = jest.fn().mockReturnValue(res);
         res.set = jest.fn().mockReturnValue(res);
         res.status = jest.fn().mockReturnValue(res);
-        res.json = jest.fn().mockImplementation(response => {
-            return response;
-        });
+        res.json = jest.fn().mockImplementation(response => response);
         return res;
     };
 

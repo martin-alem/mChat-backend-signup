@@ -5,12 +5,12 @@
  */
 
 const path = require("path");
-const express = require('express')
+const express = require("express");
 const router = express.Router({ caseSensitive: true });
 
 const Controller = require(path.join(__dirname, "../controllers/PingController"));
 
-router.all('/', (req, res) => Controller.pingController(req, res));
+router.all("/", (req, res) => Controller.pingController(req, res));
 
 router.use(Controller.invalidRequest);
 

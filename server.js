@@ -24,5 +24,5 @@ const HOST = process.env.HOST || "localhost";
 
 //initializing and starting server.
 httpServer.listen(PORT, HOST, () => {
-    console.log(`Signup Server Started: ${protocol}://${HOST}:${PORT}`);
+	console.log(`Signup Server Started: ${protocol}://${HOST}:${PORT}`);
 });
