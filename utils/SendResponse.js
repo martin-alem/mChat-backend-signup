@@ -40,7 +40,7 @@ class SendResponse {
                 "error": null
             }
         }
-        res.json(responseObject);
+        return res.json(responseObject);
     }
 
 
@@ -70,7 +70,7 @@ class SendResponse {
                 "error": error
             }
         }
-        res.json(responseObject);
+        return res.json(responseObject);
     }
 }
 
