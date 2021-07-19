@@ -25,6 +25,7 @@
   "devDependencies": {
     "chalk": "^4.1.1",
     "dotenv": "^10.0.0",
+    "eslint": "^7.31.0",
     "jest": "^27.0.6",
     "nodemon": "^2.0.12"
   },

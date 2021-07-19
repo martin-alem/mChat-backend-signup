@@ -7,7 +7,6 @@
 require("dotenv").config();
 
 const http = require("http");
-const https = require("https");
 const express = require("express");
 
 const app = express();
@@ -15,8 +14,7 @@ const app = express();
 //parse json payloads and makes it available on the req object.
 app.use(express.json());
 
-//configurations for https server
-const httpsOptions = {};
+//configurations for http server
 const protocol = "http";
 const httpServer = http.createServer(app);
 
@@ -26,5 +24,5 @@ const HOST = process.env.HOST || "localhost";
 
 //initializing and starting server.
 httpServer.listen(PORT, HOST, () => {
-    console.log(`Signup Server Started: ${protocol}://${HOST}:${PORT}`);
+	console.log(`Signup Server Started: ${protocol}://${HOST}:${PORT}`);
 });
