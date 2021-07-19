@@ -1,0 +1,22 @@
+{
+  "name": "registration",
+  "version": "1.0.0",
+  "description": "Microservice used used for creating new users",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/martin-alem/mchat-backend-signup.git"
+  },
+  "author": "Martin Alemajoh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/martin-alem/mchat-backend-signup/issues"
+  },
+  "homepage": "https://github.com/martin-alem/mchat-backend-signup#readme"
+}
