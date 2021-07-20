@@ -7,10 +7,10 @@ const path = require("path");
 const Database = require(path.join(__dirname, "./Database"));
 
 const databaseConfig = {
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: "mchat"
+    host: process.env.D_HOST || "localhost",
+    user: process.env.D_USER || "root",
+    password: process.env.D_PASSWORD || "",
+    database: process.env.DATABASE || "mchat"
 }
 
 class Query {
