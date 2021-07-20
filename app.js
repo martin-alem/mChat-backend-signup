@@ -20,11 +20,8 @@ app.use(express.json());
 
 
 //Route middleware
-app.all("/", (req, res) => {
-    res.status(200).end();
-});
 app.use("/signup", signupRouter);
-app.use("/ping", pingRouter);
+app.use("/", pingRouter);
 
 
 
