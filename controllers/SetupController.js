@@ -8,7 +8,7 @@ const path = require('path');
 const Controller = require(path.join(__dirname, './Controller'));
 const SendResponse = require(path.join(__dirname, "../utils/SendResponse"));
 const Helper = require(path.join(__dirname, "../utils/Helper"));
-const middleware = require(path.join(__dirname, "../middleware/signupMiddleware"));
+const middleware = require(path.join(__dirname, "../middleware/setupMiddleware"));
 
 class SetupController extends Controller {
 
@@ -21,7 +21,7 @@ class SetupController extends Controller {
             const message = "User setup successful";
             res.cookie('authentication', signature, { expires: new Date(Date.now() + 1 * 3600000), httpOnly: true, secure: true, sameSite: "None" });
             SendResponse.successResponse(statusCode, req, res, message);
-        } catch (error) {
+        } catch (err) {
             const statusCode = 500;
             const error = "Internal server error";
             SendResponse.failedResponse(statusCode, req, res, error);

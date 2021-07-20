@@ -23,7 +23,7 @@ router.post("/verify", VerifyController.middleware(), (req, res) => {
 });
 
 router.post("/setup", SetupController.middleware(), (req, res) => {
-    SignupController.setup(req, res);
+    SetupController.setup(req, res);
 })
 
 router.post("/verify/resend", ResendController.middleware(), (req, res) => {

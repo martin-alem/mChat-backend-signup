@@ -51,7 +51,7 @@ function validate(req, res, next) {
 
 }
 
-function verify(req, res, next) {
+async function verify(req, res, next) {
 
     const phone = req.body.phone
     try {
@@ -63,14 +63,18 @@ function verify(req, res, next) {
             return;
         }
         next();
-    } catch (error) {
-
+    } catch (err) {
+        const statusCode = 500;
+        const error = "Internal server error";
+        next({ error, statusCode });
+        console.log(err);
+        return;
     }
 }
 
 async function createUser(req, res, next) {
 
-
+    const payload = req.body;
     const user = {
         "first_name": payload.firstname,
         "last_name": payload.lastname,
