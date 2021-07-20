@@ -5,22 +5,18 @@
  */
 
 const path = require('path');
+const Controller = require(path.join(__dirname, './Controller'));
 const SendResponse = require(path.join(__dirname, "../Utils/SendResponse"));
 
-class PingController {
+class PingController extends Controller {
 
-    static pingController(req, res) {
+    static ping(req, res) {
 
         const statusCode = 200;
         const message = "Signup server up and running";
         SendResponse.successResponse(statusCode, req, res, message);
     }
 
-    static invalidRequest(req, res) {
-        const statusCode = 404;
-        const error = "Invalid request";
-        SendResponse.failedResponse(statusCode, req, res, error);
-    }
 }
 
 module.exports = PingController;
