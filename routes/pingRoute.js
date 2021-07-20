@@ -10,8 +10,8 @@ const router = express.Router({ caseSensitive: true });
 
 const Controller = require(path.join(__dirname, "../controllers/PingController"));
 
-router.all("/", (req, res) => Controller.pingController(req, res));
+router.all("/", (req, res) => Controller.ping(req, res));
 
-router.use(Controller.invalidRequest);
+router.use(Controller.invalid);
 
 module.exports = router;
