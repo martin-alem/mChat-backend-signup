@@ -10,6 +10,7 @@ const express = require("express");
 const app = express();
 
 const pingRouter = require(path.join(__dirname, "routes/pingRoute"));
+const signupRouter = require(path.join(__dirname, "routes/signupRoute"));
 
 //app settings
 app.set("x-powered-by", false);
@@ -19,6 +20,7 @@ app.use(express.json());
 
 
 //Route middleware
+app.use("/signup", signupRouter);
 app.use("/ping", pingRouter);
 
 

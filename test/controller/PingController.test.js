@@ -6,7 +6,7 @@ describe("PingController", () => {
 
     test("should call SendResponse.successResponse", () => {
         SendResponse.successResponse = jest.fn();
-        PingController.pingController({}, {});
+        PingController.ping({}, {});
         expect(SendResponse.successResponse).toHaveBeenCalled();
     });
 });
@@ -15,7 +15,7 @@ describe("invalidRequest", () => {
 
     test("should call SendResponse.failedResponse", () => {
         SendResponse.failedResponse = jest.fn();
-        PingController.invalidRequest({}, {});
+        PingController.invalid({}, {});
         expect(SendResponse.failedResponse).toHaveBeenCalled();
     });
 });
