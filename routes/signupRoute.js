@@ -9,10 +9,15 @@ const express = require("express");
 const router = express.Router({ caseSensitive: true });
 const SendResponse = require(path.join(__dirname, "../utils/SendResponse"))
 
-const Controller = require(path.join(__dirname, "../controllers/SignupController"));
+const SignupController = require(path.join(__dirname, "../controllers/SignupController"));
+const VerifyController = require(path.join(__dirname, "../controllers/VerifyController"));
 
-router.post("/", Controller.signup(), (req, res) => {
-    Controller.registerUser(req, res);
+router.post("/", SignupController.signup(), (req, res) => {
+    SignupController.registerUser(req, res);
+});
+
+router.post("/verify", VerifyController.verify(), (req, res) => {
+    VerifyController.verifyUser(req, res);
 });
 
 router.use((error, req, res, next) => {

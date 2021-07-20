@@ -1,6 +1,6 @@
 /**
  * @author Martin Alemajoh
- * @description This controller handles signup requests
+ * @description This controller handles verify requests
  * @date 7/19/2021
  */
 
@@ -8,24 +8,18 @@ const path = require('path');
 const Controller = require(path.join(__dirname, './Controller'));
 const SendResponse = require(path.join(__dirname, "../utils/SendResponse"));
 const Query = require(path.join(__dirname, "../model/Query"));
-const middleware = require(path.join(__dirname, "../middleware/signupMiddleware"))
+const middleware = require(path.join(__dirname, "../middleware/verifyMiddleware"));
 
-class SignupController extends Controller {
+class VerifyController extends Controller {
 
-
-    static async registerUser(req, res) {
-
+    static async verifyUser(req, res) {
+        const status = "verified";
         const phone = req.body.phone;
-        const code = req.body.code;
-        const status = "pending";
-        const date = new Date().getTime();
-
-        const tempUser = { "phone": phone, "code": code, "status": status, "date": date };
 
         try {
-            await Query.insert("temp_users", tempUser);
+            await Query.updateOne("temp_users", "status", status, "phone", phone);
             const statusCode = 201;
-            const message = "Temporal user created";
+            const message = "Temporal user verified";
             SendResponse.successResponse(statusCode, req, res, message);
         } catch (err) {
             const statusCode = 500;
@@ -33,10 +27,9 @@ class SignupController extends Controller {
             SendResponse.failedResponse(statusCode, req, res, error);
             console.log(err);
         }
-
     }
 
-    static signup() {
+    static verify() {
         const middlewareFunctions = [];
 
         for (const [_, value] of middleware) {
@@ -46,4 +39,4 @@ class SignupController extends Controller {
     }
 }
 
-module.exports = SignupController;
+module.exports = VerifyController;

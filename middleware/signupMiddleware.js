@@ -9,31 +9,33 @@ const SendSMS = require(path.join(__dirname, "../services/SendSMS"));
 const Query = require(path.join(__dirname, "../model/Query"));
 const Helper = require(path.join(__dirname, "../utils/Helper"));
 
-const middleware = {};
+const middleware = new Map();
 
-middleware.validatePayLoad = (req, res, next) => {
+function validatePayLoad(req, res, next) {
     const payload = req.body;
     if (Object.keys(payload).length === 0 || !payload.phone) {
         const statusCode = 400;
         const error = "Please provide a phone number";
         next({ error, statusCode });
+        return;
     }
     next();
 }
 
-middleware.validate = (req, res, next) => {
+function validate(req, res, next) {
 
     const phone = req.body.phone;
     if (!Validate.isValidPhone(phone)) {
         const statusCode = 400;
         const error = "Invalid phone number";
         next({ error, statusCode });
+        return;
     }
     next();
 
 }
 
-middleware.alreadyExists = async (req, res, next) => {
+async function alreadyExists(req, res, next) {
 
     const phone = req.body.phone;
     try {
@@ -42,6 +44,7 @@ middleware.alreadyExists = async (req, res, next) => {
             const statusCode = 400;
             const error = "Phone number already exists";
             next({ error, statusCode });
+            return;
         }
         next();
     } catch (err) {
@@ -49,10 +52,11 @@ middleware.alreadyExists = async (req, res, next) => {
         const error = "Internal server error";
         next({ error, statusCode });
         console.log(err);
+        return;
     }
 }
 
-middleware.sendVerificationCode = async (req, res, next) => {
+async function sendVerificationCode(req, res, next) {
 
     const phone = req.body.phone;
     const code = Helper.getCode(6);
@@ -64,6 +68,7 @@ middleware.sendVerificationCode = async (req, res, next) => {
             const statusCode = 400;
             const error = "Invalid Phone number. Please try using another phone number.";
             next({ error, statusCode });
+            return;
         }
         next();
     } catch (err) {
@@ -71,7 +76,13 @@ middleware.sendVerificationCode = async (req, res, next) => {
         const error = "Internal server error";
         next({ error, statusCode });
         console.log(err);
+        return;
     }
 }
+
+middleware.set("validatePayload", validatePayLoad);
+middleware.set("validate", validate);
+middleware.set("alreadyExists", alreadyExists);
+middleware.set("sendVerificationCode", sendVerificationCode);
 
 module.exports = middleware;
