@@ -6,7 +6,7 @@
 
 const path = require('path');
 const Controller = require(path.join(__dirname, './Controller'));
-const SendResponse = require(path.join(__dirname, "../Utils/SendResponse"));
+const SendResponse = require(path.join(__dirname, "../utils/SendResponse"));
 
 class PingController extends Controller {
 
