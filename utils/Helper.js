@@ -4,6 +4,10 @@
  * Martin Alemajoh
  */
 
+const { createSign } = require("crypto");
+const path = require('path');
+const Client = require(path.join(__dirname, '../services/Client'));
+
 class Helper {
 
     /**
@@ -31,14 +35,55 @@ class Helper {
     }
 
     /**
+     * Signs and returns a signature
+     * @param {any} data 
+     * @returns {string} a string representing the signature
+     */
+    static signToken(data, privateKey) {
+
+        const sign = createSign('SHA256');
+        sign.write(data);
+        sign.end();
+        const signature = sign.sign(privateKey, 'hex');
+        return signature;
+    }
+
+    /**
+     * makes an HTTP request to the server and gets a key.
+     * @param {string} type type of key. private or public
+     * @returns {promise} a promise that will be resolved to a key.
+     */
+    static async getKey(type) {
+        const options = {
+            hostname: 'localhost',
+            port: 5000,
+            path: '/authenticate/key?key=home_server',
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        };
+
+        const response = await Client.makeRequest(options);
+        if (response.statusCode === 200) {
+            const d = JSON.parse(response.message);
+            const key = d.message[0]["sign_and_verify"][type];
+            return key;
+        }
+        else {
+            return null;
+        }
+    }
+
+    /**
      * Builds an html template
      * @param {string} href 
      * @param {string} type 
      * @returns 
      */
-    static async buildEmailTemplate(href, type) {
-        const template = await Crud.read(`${type}.html`);
-        template.replace("{#}", `'${href}'`);
+    static async buildEmailTemplate(name) {
+        const template = await Crud.read(`${name}.html`);
         return template;
     }
 }
