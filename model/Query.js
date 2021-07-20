@@ -5,6 +5,7 @@
  */
 const path = require("path");
 const Database = require(path.join(__dirname, "./Database"));
+const Logger = require(path.join(__dirname, "../utils/Logger"))
 
 const databaseConfig = {
     host: process.env.D_HOST || "localhost",
@@ -30,7 +31,7 @@ class Query {
 
             Query.connection.query(`INSERT INTO ${tableName} SET ?`, value, (err, result) => {
                 if (err) {
-                    // Logger.logError(err, fileURLToPath(import.meta.url), new Date());
+                    Logger.logError(err.message, __filename, new Date());
                     reject(err);
                 }
                 else {
@@ -51,7 +52,7 @@ class Query {
             Query.connection.query(`SELECT * FROM ${tableName}`, (err, result) => {
 
                 if (err) {
-                    // Logger.logError(err, fileURLToPath(import.meta.url), new Date());
+                    Logger.logError(err.message, __filename, new Date());
                     reject(err);
                 }
                 else {
@@ -74,7 +75,7 @@ class Query {
             Query.connection.query(`SELECT * FROM ${tableName} WHERE ${field} = '${value}'`, (err, result) => {
 
                 if (err) {
-                    // Logger.logError(err, fileURLToPath(import.meta.url), new Date());
+                    Logger.logError(err.message, __filename, new Date());
                     reject(err);
                 }
                 else {
@@ -99,7 +100,7 @@ class Query {
             Query.connection.query(`UPDATE ${tableName} SET ${uField} = '${uValue}' WHERE ${field} = '${value}'`, (err, result) => {
 
                 if (err) {
-                    // Logger.logError(err, fileURLToPath(import.meta.url), new Date());
+                    Logger.logError(err.message, __filename, new Date());
                     reject(err);
                 }
                 else {
@@ -125,7 +126,7 @@ class Query {
                 Query.connection.query(`UPDATE ${tableName} SET ${key} = '${updateObject[key]}' WHERE ${uField} = '${uValue}'`, (err, result) => {
 
                     if (err) {
-                        // Logger.logError(err, fileURLToPath(import.meta.url), new Date());
+                        Logger.logError(err.message, __filename, new Date());
                         reject(err);
                     }
                     updatedRows = result.affectedRows;
@@ -146,32 +147,32 @@ class Query {
             Query.connection.beginTransaction(error => {
 
                 if (error) {
-                    // Logger.logError(err, fileURLToPath(import.meta.url), new Date());
+                    Logger.logError(error.message, __filename, new Date());
                     reject(error);
                 }
 
                 Query.connection.query(transactions[0]["query"], transactions[0]["value"], (err, result) => {
                     if (err) {
-                        // Logger.logError(err, fileURLToPath(import.meta.url), new Date());
+                        Logger.logError(err.message, __filename, new Date());
                         connection.rollback(err => {
-                            // Logger.logWarning(err, fileURLToPath(import.meta.url), new Date());
+                            Logger.logWarning(err.message, __filename, new Date());
                         });
                         reject(err);
                     }
                     Query.connection.query(transactions[1]["query"], transactions[1]["value"], (err, result) => {
                         if (err) {
-                            // Logger.logError(err, fileURLToPath(import.meta.url), new Date());
+                            LLogger.logWarning(err.message, __filename, new Date());
                             connection.rollback(err => {
-                                // Logger.logWarning(err, fileURLToPath(import.meta.url), new Date());
+                                Logger.logWarning(err.message, __filename, new Date());
                             });
                             reject(err);
                         }
 
                         Query.connection.commit(error => {
                             if (error) {
-                                // Logger.logError(error, fileURLToPath(import.meta.url), new Date());
+                                Logger.logError(err.message, __filename, new Date());
                                 connection.rollback(error => {
-                                    // Logger.logWarning(error, fileURLToPath(import.meta.url), new Date());
+                                    Logger.logWarning(error.message, __filename, new Date());
                                 });
                                 reject(error);
                             }

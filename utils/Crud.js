@@ -6,6 +6,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const Logger = require(path.resolve(__dirname, "./Logger"))
 
 class CRUD {
 
@@ -20,6 +21,7 @@ class CRUD {
         return new Promise((resolve, reject) => {
             fs.readFile(location, { encoding: 'utf8', flag: "r" }, (err, data) => {
                 if (err) {
+                    Logger.logError(err.message, __filename, new Date());
                     reject(err);
                 }
                 resolve(data);
@@ -39,6 +41,7 @@ class CRUD {
         return new Promise((resolve, reject) => {
             fs.writeFile(location, data, { encoding: "utf8", flag: mode }, error => {
                 if (error) {
+                    Logger.logError(err.message, __filename, new Date());
                     reject(error);
                 }
                 resolve(true);

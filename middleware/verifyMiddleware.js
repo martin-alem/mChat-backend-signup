@@ -6,6 +6,7 @@
 const path = require('path');
 const Validate = require(path.join(__dirname, "../validations/ValidateCredentials"));
 const Query = require(path.join(__dirname, "../model/Query"));
+const Logger = require(path.join(__dirname, "../utils/Logger"))
 
 const middleware = new Map();
 
@@ -65,7 +66,7 @@ async function codeExistAndValid(req, res, next) {
         const statusCode = 500;
         const error = "Internal server error";
         next({ error, statusCode });
-        console.log(err);
+        Logger.logWarning(err.message, __filename, new Date());
         return;
     }
 }

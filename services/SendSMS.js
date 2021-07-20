@@ -5,6 +5,8 @@
  */
 
 const Client = require("twilio");
+const path = require("path")
+const Logger = require(path.join(__dirname, "../utils/Logger"))
 
 const twilio = {
     "accountSid": process.env.TWILIO_ACCOUNT_SID,
@@ -28,10 +30,10 @@ class SendSMS {
                 from: twilio.number,
                 to: recipientPhone
             });
-            // Logger.logInfo("SMS successfully sent", fileURLToPath(import.meta.url), new Date());
+            Logger.logError("SMS successfully sent", __filename, new Date());
             return result;
         } catch (error) {
-            // Logger.logError(error, fileURLToPath(import.meta.url), new Date());
+            Logger.logError(err.message, __filename, new Date());
             return { "errorCode": "Error", "status": "failure" };
         }
 

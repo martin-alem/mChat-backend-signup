@@ -8,6 +8,7 @@ const Validate = require(path.join(__dirname, "../validations/ValidateCredential
 const SendSMS = require(path.join(__dirname, "../services/SendSMS"));
 const Query = require(path.join(__dirname, "../model/Query"));
 const Helper = require(path.join(__dirname, "../utils/Helper"));
+const Logger = require(path.join(__dirname, "../utils/Logger"))
 
 const middleware = new Map();
 
@@ -51,7 +52,7 @@ async function alreadyExists(req, res, next) {
         const statusCode = 500;
         const error = "Internal server error";
         next({ error, statusCode });
-        console.log(err);
+        Logger.logWarning(err.message, __filename, new Date());
         return;
     }
 }
@@ -75,7 +76,7 @@ async function sendVerificationCode(req, res, next) {
         const statusCode = 500;
         const error = "Internal server error";
         next({ error, statusCode });
-        console.log(err);
+        Logger.logWarning(err.message, __filename, new Date());
         return;
     }
 }

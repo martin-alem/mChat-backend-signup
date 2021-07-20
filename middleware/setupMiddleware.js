@@ -8,6 +8,7 @@ const Validate = require(path.join(__dirname, "../validations/ValidateCredential
 const SendEmail = require(path.join(__dirname, "../services/SendEmail"));
 const Hash = require(path.join(__dirname, "../services/Hash"));
 const Query = require(path.join(__dirname, "../model/Query"));
+const Logger = require(path.join(__dirname, "../utils/Logger"))
 
 
 
@@ -67,7 +68,7 @@ async function verify(req, res, next) {
         const statusCode = 500;
         const error = "Internal server error";
         next({ error, statusCode });
-        console.log(err);
+        Logger.logWarning(err.message, __filename, new Date());
         return;
     }
 }
@@ -100,7 +101,7 @@ async function createUser(req, res, next) {
         const statusCode = 500;
         const error = "Internal server error";
         next({ error, statusCode });
-        console.log(err);
+        Logger.logWarning(err.message, __filename, new Date());
         return;
     }
 }

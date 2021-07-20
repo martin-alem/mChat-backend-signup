@@ -8,6 +8,7 @@ const path = require("path");
 const express = require("express");
 const router = express.Router({ caseSensitive: true });
 
+const Logger = require(path.join(__dirname, "../utils/Logger"));
 const SendResponse = require(path.join(__dirname, "../utils/SendResponse"));
 const SignupController = require(path.join(__dirname, "../controllers/SignupController"));
 const VerifyController = require(path.join(__dirname, "../controllers/VerifyController"));
@@ -31,6 +32,7 @@ router.post("/verify/resend", ResendController.middleware(), (req, res) => {
 });
 
 router.use((error, req, res, next) => {
+    Logger.logError(error.error, __filename, new Date());
     SendResponse.failedResponse(error.statusCode, req, res, error.error);
 });
 

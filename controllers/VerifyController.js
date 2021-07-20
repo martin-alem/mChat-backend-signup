@@ -9,6 +9,7 @@ const Controller = require(path.join(__dirname, './Controller'));
 const SendResponse = require(path.join(__dirname, "../utils/SendResponse"));
 const Query = require(path.join(__dirname, "../model/Query"));
 const middleware = require(path.join(__dirname, "../middleware/verifyMiddleware"));
+const Logger = require(path.join(__dirname, "../utils/Logger"))
 
 class VerifyController extends Controller {
 
@@ -25,7 +26,7 @@ class VerifyController extends Controller {
             const statusCode = 500;
             const error = "Internal server error";
             SendResponse.failedResponse(statusCode, req, res, error);
-            console.log(err);
+            Logger.logWarning(err.message, __filename, new Date());
         }
     }
 

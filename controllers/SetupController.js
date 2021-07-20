@@ -9,6 +9,7 @@ const Controller = require(path.join(__dirname, './Controller'));
 const SendResponse = require(path.join(__dirname, "../utils/SendResponse"));
 const Helper = require(path.join(__dirname, "../utils/Helper"));
 const middleware = require(path.join(__dirname, "../middleware/setupMiddleware"));
+const Logger = require(path.join(__dirname, "../utils/Logger"))
 
 class SetupController extends Controller {
 
@@ -25,7 +26,7 @@ class SetupController extends Controller {
             const statusCode = 500;
             const error = "Internal server error";
             SendResponse.failedResponse(statusCode, req, res, error);
-            console.log(err);
+            Logger.logWarning(err.message, __filename, new Date());
         }
 
     }

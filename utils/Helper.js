@@ -50,6 +50,30 @@ class Helper {
     }
 
     /**
+     * Gets a color
+     * @param {string} flag type of log message
+     * @returns {string} a string representing the color.
+     */
+    static getColor(flag) {
+        let color;
+        switch (flag) {
+            case "INFO":
+                color = "green";
+                break;
+            case "WARNING":
+                color = "yellow";
+                break
+            case "ERROR":
+                color = "red"
+                break
+            default:
+                color = "blue";
+
+        }
+        return color;
+    }
+
+    /**
      * makes an HTTP request to the server and gets a key.
      * @param {string} type type of key. private or public
      * @returns {promise} a promise that will be resolved to a key.

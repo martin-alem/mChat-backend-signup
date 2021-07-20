@@ -4,6 +4,8 @@
  * Martin Alemajoh
  */
 const http = require('http');
+const path = require('path');
+const Logger = require(path.join(__dirname, "../utils/Logger"))
 
 class Client {
 
@@ -27,11 +29,13 @@ class Client {
                 });
                 res.on('end', () => {
                     response["message"] = JSON.stringify(JSON.parse(data));
+                    Logger.logError("Fetching key successful", __filename, new Date());
                     resolve(response);
                 });
             });
 
             request.on('error', error => {
+                Logger.logError(err.message, __filename, new Date());
                 reject(error);
             });
 

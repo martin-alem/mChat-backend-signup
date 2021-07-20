@@ -7,6 +7,7 @@
 const path = require('path');
 const sgMail = require("@sendgrid/mail");
 const Helper = require(path.join(__dirname, "../utils/Helper"));
+const Logger = require(path.join(__dirname, "../utils/Logger"))
 
 class SendEmail {
 
@@ -29,10 +30,10 @@ class SendEmail {
 
         try {
             await sgMail.send(msg);
-            // Logger.logInfo("Email successfully sent", fileURLToPath(import.meta.url), new Date());
+            Logger.logError("Email sent", __filename, new Date());
             return true;
         } catch (error) {
-            // Logger.logError(error, fileURLToPath(import.meta.url), new Date());
+            Logger.logError(err.message, __filename, new Date());
             return false;
         }
 

@@ -9,6 +9,7 @@ require("dotenv").config();
 const http = require("http");
 const path = require("path");
 const app = require(path.join(__dirname, "app"));
+const Logger = require(path.join(__dirname, "./utils/Logger"));
 
 
 
@@ -24,5 +25,5 @@ const HOST = process.env.HOST || "localhost";
 
 //initializing and starting server.
 httpServer.listen(PORT, HOST, () => {
-	console.log(`Signup Server Started: ${protocol}://${HOST}:${PORT}`);
+	Logger.logInfo(`Signup Server Started: ${protocol}://${HOST}:${PORT}`, __filename, new Date());
 });
