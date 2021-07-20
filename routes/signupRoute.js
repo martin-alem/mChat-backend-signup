@@ -11,6 +11,7 @@ const SendResponse = require(path.join(__dirname, "../utils/SendResponse"))
 
 const SignupController = require(path.join(__dirname, "../controllers/SignupController"));
 const VerifyController = require(path.join(__dirname, "../controllers/VerifyController"));
+const ResendController = require(path.join(__dirname, "../controllers/ResendController"));
 
 router.post("/", SignupController.signup(), (req, res) => {
     SignupController.registerUser(req, res);
@@ -18,6 +19,10 @@ router.post("/", SignupController.signup(), (req, res) => {
 
 router.post("/verify", VerifyController.verify(), (req, res) => {
     VerifyController.verifyUser(req, res);
+});
+
+router.post("/verify/resend", ResendController.resendCode(), (req, res) => {
+    ResendController.updateTempUser(req, res);
 });
 
 router.use((error, req, res, next) => {
