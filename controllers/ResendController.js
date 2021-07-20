@@ -12,7 +12,7 @@ const middleware = require(path.join(__dirname, "../middleware/resendMiddleware"
 
 class ResendController extends Controller {
 
-    static async updateTempUser(req, res) {
+    static async resendCode(req, res) {
 
         const code = req.body.code;
         const phone = req.body.phone;
@@ -31,7 +31,7 @@ class ResendController extends Controller {
         }
     }
 
-    static resendCode() {
+    static middleware() {
         const middlewareFunctions = [];
 
         for (const [_, value] of middleware) {

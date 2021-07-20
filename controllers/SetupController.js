@@ -1,33 +1,27 @@
 /**
  * @author Martin Alemajoh
- * @description This controller handles signup requests
+ * @description This controller handles setup requests
  * @date 7/19/2021
  */
 
 const path = require('path');
 const Controller = require(path.join(__dirname, './Controller'));
 const SendResponse = require(path.join(__dirname, "../utils/SendResponse"));
-const Query = require(path.join(__dirname, "../model/Query"));
-const middleware = require(path.join(__dirname, "../middleware/signupMiddleware"))
+const Helper = require(path.join(__dirname, "../utils/Helper"));
+const middleware = require(path.join(__dirname, "../middleware/signupMiddleware"));
 
-class SignupController extends Controller {
+class SetupController extends Controller {
 
-
-    static async registerUser(req, res) {
-
-        const phone = req.body.phone;
-        const code = req.body.code;
-        const status = "pending";
-        const date = new Date().getTime();
-
-        const tempUser = { "phone": phone, "code": code, "status": status, "date": date };
+    static async setup(req, res) {
 
         try {
-            await Query.insert("temp_users", tempUser);
+            const privateKey = await Helper.getKey("private");
+            const signature = Helper.signToken(payload.phone, privateKey);
             const statusCode = 201;
-            const message = "Temporal user created";
+            const message = "User setup successful";
+            res.cookie('authentication', signature, { expires: new Date(Date.now() + 1 * 3600000), httpOnly: true, secure: true, sameSite: "None" });
             SendResponse.successResponse(statusCode, req, res, message);
-        } catch (err) {
+        } catch (error) {
             const statusCode = 500;
             const error = "Internal server error";
             SendResponse.failedResponse(statusCode, req, res, error);
@@ -35,6 +29,7 @@ class SignupController extends Controller {
         }
 
     }
+
 
     static middleware() {
         const middlewareFunctions = [];
@@ -46,4 +41,5 @@ class SignupController extends Controller {
     }
 }
 
-module.exports = SignupController;
+module.exports = SetupController;
+

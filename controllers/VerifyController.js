@@ -29,7 +29,7 @@ class VerifyController extends Controller {
         }
     }
 
-    static verify() {
+    static middleware() {
         const middlewareFunctions = [];
 
         for (const [_, value] of middleware) {
