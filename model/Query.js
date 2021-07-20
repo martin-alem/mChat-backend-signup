@@ -10,7 +10,9 @@ const databaseConfig = {
     host: process.env.D_HOST || "localhost",
     user: process.env.D_USER || "root",
     password: process.env.D_PASSWORD || "",
-    database: process.env.DATABASE || "mchat"
+    database: process.env.DATABASE || "mchat",
+    port: process.env.D_PORT || 3306,
+    sslmode: process.env.SSL_MODE
 }
 
 class Query {
