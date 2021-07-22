@@ -16,8 +16,9 @@ class SetupController extends Controller {
     static async setup(req, res) {
 
         try {
+            const { phone } = req.body;
             const privateKey = process.env.PRIVATE_KEY;
-            const signature = Helper.signToken(payload.phone, privateKey);
+            const signature = Helper.signToken(phone, privateKey);
             const statusCode = 201;
             const message = "User setup successful";
             res.cookie('authentication', signature, { expires: new Date(Date.now() + 1 * 3600000), httpOnly: true, secure: true, sameSite: "None" });

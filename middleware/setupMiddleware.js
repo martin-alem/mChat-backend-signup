@@ -97,6 +97,7 @@ async function createUser(req, res, next) {
         await Query.updateOne("temp_users", "status", "complete", "phone", payload.phone);
         const options = { "templateName": "welcome", "address": payload.email, "subject": "Welcome To mChat" };
         await SendEmail.sendEmail(options);
+        next();
     } catch (err) {
         const statusCode = 500;
         const error = "Internal server error";
