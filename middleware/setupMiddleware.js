@@ -3,12 +3,12 @@
  * @description Holds all the middleware functions  for setup
  */
 
-const path = require('path');
+const path = require("path");
 const Validate = require(path.join(__dirname, "../validations/ValidateCredentials"));
 const SendEmail = require(path.join(__dirname, "../services/SendEmail"));
 const Hash = require(path.join(__dirname, "../services/Hash"));
 const Query = require(path.join(__dirname, "../model/Query"));
-const Logger = require(path.join(__dirname, "../utils/Logger"))
+const Logger = require(path.join(__dirname, "../utils/Logger"));
 
 
 
@@ -54,7 +54,7 @@ function validate(req, res, next) {
 
 async function verify(req, res, next) {
 
-    const phone = req.body.phone
+    const phone = req.body.phone;
     try {
         const result = await Query.selectOne("temp_users", "phone", phone);
         if (result.length === 0 || result[0]["status"] !== "verified") {
@@ -68,7 +68,7 @@ async function verify(req, res, next) {
         const statusCode = 500;
         const error = "Internal server error";
         next({ error, statusCode });
-        Logger.logWarning(err.message, __filename, new Date());
+        Logger.logWarning(err, __filename, new Date());
         return;
     }
 }
@@ -82,26 +82,26 @@ async function createUser(req, res, next) {
         "email": payload.email,
         "phone": payload.phone,
         "date": new Date().getTime()
-    }
+    };
 
     const activeUser = {
         "phone": payload.phone,
         "password": Hash.hashData(payload.password),
         "email": payload.email,
         "status": "active",
-    }
+    };
     const transactions = [{ "query": "INSERT into users SET ?", "value": user }, { "query": "INSERT INTO login SET ?", "value": activeUser }];
 
     try {
         await Query.performTransaction(transactions);
         await Query.updateOne("temp_users", "status", "complete", "phone", payload.phone);
-        const options = { "templateName": "welcome", "address": payload.email, "subject": "Welcome To mChat" }
+        const options = { "templateName": "welcome", "address": payload.email, "subject": "Welcome To mChat" };
         await SendEmail.sendEmail(options);
     } catch (err) {
         const statusCode = 500;
         const error = "Internal server error";
         next({ error, statusCode });
-        Logger.logWarning(err.message, __filename, new Date());
+        Logger.logWarning(err, __filename, new Date());
         return;
     }
 }

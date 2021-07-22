@@ -16,7 +16,7 @@ class SetupController extends Controller {
     static async setup(req, res) {
 
         try {
-            const privateKey = await Helper.getKey("private");
+            const privateKey = process.env.PRIVATE_KEY;
             const signature = Helper.signToken(payload.phone, privateKey);
             const statusCode = 201;
             const message = "User setup successful";

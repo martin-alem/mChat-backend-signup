@@ -3,10 +3,10 @@
  * @description Holds all the middleware functions  for verify
  */
 
-const path = require('path');
+const path = require("path");
 const Validate = require(path.join(__dirname, "../validations/ValidateCredentials"));
 const Query = require(path.join(__dirname, "../model/Query"));
-const Logger = require(path.join(__dirname, "../utils/Logger"))
+const Logger = require(path.join(__dirname, "../utils/Logger"));
 
 const middleware = new Map();
 
@@ -41,7 +41,7 @@ async function codeExistAndValid(req, res, next) {
     const code = req.body.code;
     try {
         const selectResult = await Query.selectOne("temp_users", "phone", phone);
-        if (selectResult.length > 0 && selectResult[0]["code"] === code) {
+        if (selectResult.length > 0 && selectResult[0]["code"] === code && selectResult[0]["status"] === "progress") {
 
             const now = new Date().getTime();
             const past = parseInt(selectResult[0].date, 10);
@@ -49,7 +49,7 @@ async function codeExistAndValid(req, res, next) {
 
             if (diffInMinutes >= 5) {
                 const statusCode = 403;
-                const error = `Verification expired ${diffInMinutes} minutes ago`;
+                const error = `Verification code expired ${diffInMinutes} minutes ago`;
                 next({ error, statusCode });
                 return;
             }
@@ -66,7 +66,7 @@ async function codeExistAndValid(req, res, next) {
         const statusCode = 500;
         const error = "Internal server error";
         next({ error, statusCode });
-        Logger.logWarning(err.message, __filename, new Date());
+        Logger.logWarning(err, __filename, new Date());
         return;
     }
 }

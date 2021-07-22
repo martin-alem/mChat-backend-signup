@@ -3,7 +3,7 @@
  * @description Holds all the middleware functions  for resend
  */
 
-const path = require('path');
+const path = require("path");
 const Validate = require(path.join(__dirname, "../validations/ValidateCredentials"));
 const SendSMS = require(path.join(__dirname, "../services/SendSMS"));
 const Query = require(path.join(__dirname, "../model/Query"));
@@ -42,7 +42,7 @@ async function phoneExist(req, res, next) {
     const phone = req.body.phone;
     try {
         const selectResult = await Query.selectOne("temp_users", "phone", phone);
-        if (selectResult.length === 0 && selectResult[0]["status"] === "pending") {
+        if (selectResult.length === 0 || selectResult[0]["status"] !== "progress") {
             const statusCode = 400;
             const error = "Phone number does not exists";
             next({ error, statusCode });
@@ -53,7 +53,7 @@ async function phoneExist(req, res, next) {
         const statusCode = 500;
         const error = "Internal server error";
         next({ error, statusCode });
-        Logger.logWarning(err.message, __filename, new Date());
+        Logger.logWarning(err, __filename, new Date());
         return;
     }
 }
@@ -75,7 +75,7 @@ async function resendLimit(req, res, next) {
         const statusCode = 500;
         const error = "Internal server error";
         next({ error, statusCode });
-        Logger.logWarning(err.message, __filename, new Date());
+        Logger.logWarning(err, __filename, new Date());
         return;
     }
 }
@@ -99,7 +99,7 @@ async function sendVerificationCode(req, res, next) {
         const statusCode = 500;
         const error = "Internal server error";
         next({ error, statusCode });
-        Logger.logWarning(err.message, __filename, new Date());
+        Logger.logWarning(err, __filename, new Date());
         return;
     }
 }

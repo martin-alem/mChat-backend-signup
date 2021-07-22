@@ -3,12 +3,12 @@
  * @description Holds all the middleware functions  for signup
  */
 
-const path = require('path');
+const path = require("path");
 const Validate = require(path.join(__dirname, "../validations/ValidateCredentials"));
 const SendSMS = require(path.join(__dirname, "../services/SendSMS"));
 const Query = require(path.join(__dirname, "../model/Query"));
 const Helper = require(path.join(__dirname, "../utils/Helper"));
-const Logger = require(path.join(__dirname, "../utils/Logger"))
+const Logger = require(path.join(__dirname, "../utils/Logger"));
 
 const middleware = new Map();
 
@@ -52,7 +52,7 @@ async function alreadyExists(req, res, next) {
         const statusCode = 500;
         const error = "Internal server error";
         next({ error, statusCode });
-        Logger.logWarning(err.message, __filename, new Date());
+        Logger.logWarning(err, __filename, new Date());
         return;
     }
 }
@@ -76,7 +76,7 @@ async function sendVerificationCode(req, res, next) {
         const statusCode = 500;
         const error = "Internal server error";
         next({ error, statusCode });
-        Logger.logWarning(err.message, __filename, new Date());
+        Logger.logWarning(err, __filename, new Date());
         return;
     }
 }
