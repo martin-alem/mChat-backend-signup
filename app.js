@@ -19,7 +19,7 @@ app.set("x-powered-by", false);
 app.use(express.json());
 
 /**
- * Manual cors configuration
+ * Manual cors and preflight request configuration
  */
 app.options("*", (req, res) => {
 	res.status(200);

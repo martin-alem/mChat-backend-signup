@@ -5,6 +5,7 @@
  */
 
 const path = require('path');
+const fs = require("fs");
 const Controller = require(path.join(__dirname, './Controller'));
 const SendResponse = require(path.join(__dirname, "../utils/SendResponse"));
 const Helper = require(path.join(__dirname, "../utils/Helper"));
@@ -17,7 +18,7 @@ class SetupController extends Controller {
 
         try {
             const { phone } = req.body;
-            const privateKey = process.env.PRIVATE_KEY;
+            const privateKey = fs.readFileSync(path.join(__dirname, "../data/private.text"));
             const signature = Helper.signToken(phone, privateKey);
             const statusCode = 201;
             const message = "User setup successful";
