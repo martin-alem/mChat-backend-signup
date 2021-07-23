@@ -18,7 +18,7 @@ class MysqlDatabase {
 			connection.connect(error => {
 				if (error) {
 					Logger.logError(error, __filename, new Date());
-					throw new Error("Couldn't connect to database");
+					throw new Error(error);
 				}
 				else {
 					Logger.logInfo("Database connection established", __filename, new Date());
