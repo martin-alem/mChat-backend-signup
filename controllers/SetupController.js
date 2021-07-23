@@ -18,7 +18,7 @@ class SetupController extends Controller {
 
         try {
             const { phone } = req.body;
-            const privateKey = fs.readFileSync(path.join(__dirname, "../data/private.text"));
+            const privateKey = fs.readFileSync(path.join(__dirname, "../data/private.txt"));
             const signature = Helper.signToken(phone, privateKey);
             const statusCode = 201;
             const message = "User setup successful";
